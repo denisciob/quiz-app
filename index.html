@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PPL Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN SECTION -->
+<div id="login-section">
+  <h2>Login</h2>
+  <input id="login-username" placeholder="Username">
+  <input id="login-password" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p>
+    No account?
+    <button onclick="showRegister()">Register</button>
+  </p>
+</div>
+
+<!-- REGISTER SECTION -->
+<div id="register-section" style="display:none">
+  <h2>Register</h2>
+  <input id="reg-username" placeholder="Username">
+  <input id="reg-password" type="password" placeholder="Password">
+  <input id="reg-firstname" placeholder="First name">
+  <input id="reg-lastname" placeholder="Last name">
+  <input id="reg-birthdate" type="date">
+  <button onclick="register()">Create account</button>
+  <button onclick="showLogin()">Back</button>
+</div>
+
+<!-- START TEST SECTION (NEW) -->
+<div id="start-section" style="display:none">
+  <h2>Click when you are ready to start the test</h2>
+  <button onclick="startTest()">START TEST</button>
+</div>
+
+<!-- QUIZ SECTION -->
+<div id="quiz-section" style="display:none">
+
+  <div>
+    <span id="welcome"></span>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <h1>EXAM</h1>
+
+  <div class="top-bar">
+    <div id="timer"></div>
+    <div id="progress"></div>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div class="nav-buttons">
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+  </div>
+
+  <div id="question-grid"></div>
+
+  <button id="submit">Submit Test</button>
+
+  <div id="result"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
