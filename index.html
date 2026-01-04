@@ -32,6 +32,19 @@
   <button onclick="showLogin()">Back</button>
 </div>
 
+<div id="subject-section" style="display:none"> <!-- NEW -->
+  <h2>Select subject</h2>
+
+  <select id="subject-select">
+    <option value="">-- Choose subject --</option>
+    <option value="meteorology">Meteorology</option>
+    <option value="navigation">Navigation</option>
+    <option value="airlaw">Air Law</option>
+  </select>
+
+  <button onclick="confirmSubject()">Confirm</button>
+</div>
+
 <!-- START TEST SECTION (NEW) -->
 <div id="start-section" style="display:none">
   <h2>Click when you are ready to start the test</h2>
@@ -46,7 +59,7 @@
     <button onclick="logout()">Logout</button>
   </div>
 
-  <h1>EXAM</h1>
+  <h1 id="exam-title">EXAM</h1>
 
   <div class="top-bar">
     <div id="timer"></div>

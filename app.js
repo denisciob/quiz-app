@@ -1,59 +1,83 @@
 const TEST_TIME_SECONDS = 120;
 const PASS_PERCENTAGE = 75;
-const QUESTIONS_PER_TEST = 5;
+const QUESTIONS_PER_TEST = 7;
 
 /*** USERS ***/
 let users = JSON.parse(localStorage.getItem("users")) || [];
 let currentUser = null;
 
 /*** QUESTION BANK ***/
-const questionBank = [
-  {
-    question: "Unde merg Denis si Adriana in septembrie?",
-    options: ["Bangkok", "Bangpusi", "Bangdic", "Bacau"],
-    correctIndex: 3
-  },
-  {
-    question: "Cati ani are Alex Chirvase Intai?",
-    options: ["47", "105 d.Hr.", "105 i.Hr.", "12cm"],
-    correctIndex: 3
-  },
-  {
-    question: "Cine sunt fratii Luca?",
-    options: ["Luca fratii", "Petru si Pavel", "Ue cacatule", "Rusu si Radu"],
-    correctIndex: 2
-  },
-  {
-    question: "Cat de gros este penisul lui Matei Negura",
-    options: ["Doza de bere", "Balot", "Dr.Max", "Plapuma cat preputul"],
-    correctIndex: 1
-  },
-  {
-    question: "Cum o cheama pe pisica Adrianei?",
-    options: ["Mircea", "John Wick", "Cacatule", "Matei si Luca"],
-    correctIndex: 3
-  },
-  {
-    question: "Ce se caca Paula la micul dejun?",
-    options: ["Lilieci aldente", "Batman", "Rulmenti", "Scrot prajit"],
-    correctIndex: 0
-  },
-  {
-    question: "Care este cea mai lunga parte a corpului uman unisex?",
-    options: ["Irisul", "Preputul", "Plapuma", "Partia"],
-    correctIndex: 1
-  },
-  {
-    question: "Cine este autorul operei Punguta cu doi bani?",
-    options: ["Paula si Fronea", "Cosmin Napoleon Games", "Ion Creanga", "Kanye West"],
-    correctIndex: 2
-  }
-  // poti adauga ORICATE intrebari aici
-];
+const questionBanks = {
+  meteorology: [
+    {
+      question: "Unde merg Denis si Adriana in septembrie?",
+      options: ["Bangkok", "Bangpusi", "Bangdic", "Bacau"],
+      correctIndex: 3
+    },
+    {
+      question: "Cati ani are Alex Chirvase Intai?",
+      options: ["47", "105 d.Hr.", "105 i.Hr.", "12cm"],
+      correctIndex: 3
+    },
+    {
+      question: "Cine sunt fratii Luca?",
+      options: ["Luca fratii", "Petru si Pavel", "Ue cacatule", "Rusu si Radu"],
+      correctIndex: 2
+    }
+  ],
+  
+  navigation: [
+    {
+      question: "Cat de gros este penisul lui Matei Negura?",
+      options: ["Doza de bere", "Balot", "Dr.Max", "Plapuma cat preputul"],
+      correctIndex: 1
+    },
+    {
+      question: "Cum o cheama pe pisica Adrianei?",
+      options: ["Mircea", "John Wick", "Cacatule", "Matei si Luca"],
+      correctIndex: 3
+    },
+    {
+      question: "Ce se caca Paula la micul dejun?",
+      options: ["Lilieci aldente", "Batman", "Rulmenti", "Scrot prajit"],
+      correctIndex: 0
+    },
+    {
+      question: "Care este cea mai lunga parte a corpului uman unisex?",
+      options: ["Irisul", "Preputul", "Plapuma", "Partia"],
+      correctIndex: 1
+    }
+  ],
+
+  airlaw: [
+    {
+      question: "Cine este autorul operei Punguta cu doi bani?",
+      options: ["Paula si Fronea", "Cosmin Napoleon Games", "Ion Creanga", "Kanye West"],
+      correctIndex: 2
+    },
+    {
+      question: "Cate kg are pisica Adrianei?",
+      options: ["20kg", "8kg", "Cacatule", "120kg"],
+      correctIndex: 1
+    },
+    {
+      question: "Ce se caca Paula la cina?",
+      options: ["Lilieci aldente", "Batman", "Rulmenti", "Scrot prajit"],
+      correctIndex: 2
+    },
+    {
+      question: "Care este cea mai scurta parte a corpului uman fara preput?",
+      options: ["Irisul", "Preputul", "Plapuma", "Partia"],
+      correctIndex: 2
+    }
+  ]
+};
+
 
 /*** ELEMENTS ***/
 const loginSection = document.getElementById("login-section");
 const registerSection = document.getElementById("register-section");
+const subjectSection = document.getElementById("subject-section");
 const startSection = document.getElementById("start-section"); // NEW
 const quizSection = document.getElementById("quiz-section");
 
@@ -66,6 +90,16 @@ const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const gridEl = document.getElementById("question-grid");
 const welcomeEl = document.getElementById("welcome");
+const examTitleEl = document.getElementById("exam-title");
+
+/*** QUIZ STATE ***/
+let shuffledQuestions = [];
+let currentQuestion = 0;
+let userAnswers = [];
+let timeLeft;
+let timerInterval;
+let answered = [];
+let selectedSubject = null;
 
 /*** LOGIN / REGISTER ***/
 function showRegister() {
@@ -121,8 +155,9 @@ function loginUser(user) {
 
   loginSection.style.display = "none";
   registerSection.style.display = "none";
-  startSection.style.display = "block"; // NEW: aratam START
-  quizSection.style.display = "none";   // NEW: nu pornim quiz-ul
+  subjectSection.style.display = "block";
+  startSection.style.display = "block"; 
+  quizSection.style.display = "none";   
 
   welcomeEl.textContent = `Welcome, ${user.firstName}`;
 }
@@ -141,13 +176,19 @@ const regFirst = () => document.getElementById("reg-firstname");
 const regLast = () => document.getElementById("reg-lastname");
 const regBirth = () => document.getElementById("reg-birthdate");
 
-/*** QUIZ STATE ***/
-let shuffledQuestions = [];
-let currentQuestion = 0;
-let userAnswers = [];
-let timeLeft;
-let timerInterval;
-let answered = [];
+function confirmSubject() {
+  const subject = document.getElementById("subject-select").value;
+
+  if (!subject) {
+    alert("Please select a subject");
+    return;
+  }
+
+  selectedSubject = subject;
+  examTitleEl.textContent = `${subject.toUpperCase()} EXAM`
+  subjectSection.style.display = "none";
+  startSection.style.display = "block";
+}
 
 /*** START TEST (NEW) ***/
 function startTest() {
@@ -162,7 +203,7 @@ function shuffle(arr) {
 }
 
 function startQuiz() {
-  shuffledQuestions = shuffle([...questionBank]).slice(0, QUESTIONS_PER_TEST);
+  shuffledQuestions = shuffle([...questionBanks[selectedSubject]]).slice(0, QUESTIONS_PER_TEST);
   currentQuestion = 0;
   userAnswers = [];
   answered = [];
