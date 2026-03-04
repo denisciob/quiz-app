@@ -15,7 +15,8 @@ body {
 #login-section,
 #register-section,
 #start-section,
-#quiz-section {
+#quiz-section,
+#result-section {
   max-width: 800px;
   margin: 30px auto;
   padding: 20px;
@@ -186,4 +187,192 @@ button:disabled {
 
 #submit:active {
   transform: scale(0.98);
+}
+
+#subject-section {
+  display: none;
+  text-align: center;
+  animation: fadeSlide 0.4s ease;
+}
+
+#subject-section h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+#subject-select {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  font-size: 20px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+}
+
+#subject-section button {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #3498db; /* albastru */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#subject-section button:hover {
+  background-color: #2980b9;
+}
+
+#subject-section button:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#login-section,
+#register-section,
+#subject-section,
+#start-section,
+#quiz-section,
+#result-section {
+  animation: fadeSlide 0.4s ease;
+}
+
+.subject-hint {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+/* ===============================
+   DARK MODE (NEW)
+================================ */
+
+/* tranzitie smooth */
+body,
+#login-section,
+#register-section,
+#subject-section,
+#start-section,
+#quiz-section {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* DARK MODE BODY */
+body.dark {
+  background: #121212;
+  color: #eaeaea;
+}
+
+/* DARK MODE SECTIONS */
+body.dark #login-section,
+body.dark #register-section,
+body.dark #subject-section,
+body.dark #start-section,
+body.dark #quiz-section,
+body.dark #result-section {
+  background: #1e1e1e;
+  box-shadow: none;
+}
+
+/* INPUTS */
+body.dark input,
+body.dark select {
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+/* BUTTONS */
+body.dark button {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark button:hover {
+  background-color: #444;
+}
+
+/* QUIZ OPTIONS */
+body.dark #quiz label {
+  background: #2a2a2a;
+  border-color: #555;
+}
+
+/* GRID */
+body.dark .q-unanswered {
+  background: #1e1e1e;
+}
+
+body.dark .q-correct {
+  background: #2e7d32;
+}
+
+body.dark .q-wrong {
+  background: #8e2a2a;
+}
+
+body.dark #quiz label.correct {
+  background-color: #2ecc71 !important; /* verde clar */
+  color: #000 !important;
+}
+
+body.dark #quiz label.wrong {
+  background-color: #e74c3c !important; /* rosu clar */
+  color: #fff !important;
+}
+
+/* DARK MODE BUTTON */
+#dark-toggle {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.image-container {
+  text-align: center;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.image-container img {
+  max-width: 100%;       
+  max-height: 300px;     
+  height: auto;
+  border-radius: 4px;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.question-text {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+/* Ajustare pentru Dark Mode */
+body.dark .image-container {
+  background: #2b2b2b;
+  border-color: #444;
+}
+
+body.dark .image-container img {
+  opacity: 0.9; 
 }

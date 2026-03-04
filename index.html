@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- LOGIN SECTION -->
+<audio id="bg-music" loop>
+  <source src="chill.mp3" type="audio/mpeg">
+</audio>
 <div id="login-section">
   <h2>Login</h2>
   <input id="login-username" placeholder="Username">
@@ -20,7 +21,6 @@
   </p>
 </div>
 
-<!-- REGISTER SECTION -->
 <div id="register-section" style="display:none">
   <h2>Register</h2>
   <input id="reg-username" placeholder="Username">
@@ -32,31 +32,34 @@
   <button onclick="showLogin()">Back</button>
 </div>
 
-<div id="subject-section" style="display:none"> <!-- NEW -->
-  <h2>Select subject</h2>
+<div id="subject-section" style="display:none">
+  <h2 class="subject-hint">Select subject</h2>
 
   <select id="subject-select">
-    <option value="">-- Choose subject --</option>
+    <option value="knowledge">Knowledge</option>
     <option value="meteorology">Meteorology</option>
     <option value="navigation">Navigation</option>
     <option value="airlaw">Air Law</option>
+    <option value="hp">Human Performances</option>
+    <option value="communication">Communication</option>
   </select>
 
   <button onclick="confirmSubject()">Confirm</button>
 </div>
 
-<!-- START TEST SECTION (NEW) -->
 <div id="start-section" style="display:none">
   <h2>Click when you are ready to start the test</h2>
   <button onclick="startTest()">START TEST</button>
 </div>
 
-<!-- QUIZ SECTION -->
 <div id="quiz-section" style="display:none">
-
-  <div>
+  <div class="top-actions"> 
     <span id="welcome"></span>
-    <button onclick="logout()">Logout</button>
+    <div>
+      <button id="music-toggle" onclick="toggleMusic()" style="margin-right: 5px;">🔊</button>
+      <button id="dark-toggle" onclick="toggleDarkMode()">🌙</button>
+      <button onclick="logout()">Logout</button>
+    </div>
   </div>
 
   <h1 id="exam-title">EXAM</h1>
@@ -76,8 +79,23 @@
   <div id="question-grid"></div>
 
   <button id="submit">Submit Test</button>
-
+  
   <div id="result"></div>
+</div>
+
+<div id="result-section" style="display:none">
+  <h1>Exam Finished</h1>
+  
+  <div id="score-display" style="text-align: center; margin-bottom: 30px;">
+    </div>
+
+  <h3>History</h3>
+  <div id="history-list">
+    </div>
+
+  <button onclick="returnToSubjects()" style="margin-top: 20px; width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+    Back
+  </button>
 </div>
 
 <script src="app.js"></script>
